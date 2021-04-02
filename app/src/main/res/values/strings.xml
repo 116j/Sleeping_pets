@@ -6,9 +6,9 @@
     <string name="menu_search">Find a friend</string>
     <string name="menu_suggestions">Suggestions</string>
     <string name="menu_alarm">Alarm</string>
-    <string name="facebook_app_id">2592644530834639</string>
-    <string name="fb_login_protocol_scheme">fb2592644530834639</string>
-    <integer name="com_vk_sdk_AppId">7784017</integer>
+    <string name="facebook_app_id"></string>
+    <string name="fb_login_protocol_scheme"></string>
+    <integer name="com_vk_sdk_AppId"></integer>
     <string name="title_activity_main">MainActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
