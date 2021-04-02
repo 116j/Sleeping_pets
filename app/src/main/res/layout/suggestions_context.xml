@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SuggestionsActivity">
+
+    <include
+        layout="@layout/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+
+    <include
+        layout="@layout/coins_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="129dp"
+        android:layout_marginEnd="28dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:text="Suggestions for today"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/suggestions_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="28dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/search_list_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

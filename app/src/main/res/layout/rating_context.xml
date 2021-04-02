@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    tools:context=".RatingActivity">
+
+    <include
+        layout="@layout/menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+
+    <include
+        layout="@layout/coins_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:text="Top 100"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/raleway_light"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:text="this week"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="231dp"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/user_rating_view"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/rating_my_number"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:textSize="25sp" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/vertical_line" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/rating_my_image"
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="12dp"
+                app:civ_border_color="#D8D8D8"
+                app:civ_border_width="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/rating_my_name"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:layout_marginStart="109dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginStart="109dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="41dp"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/pawprint" />
+
+                <TextView
+                    android:id="@+id/rating_my_pets_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:letterSpacing="0.1"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@mipmap/percent" />
+
+                <TextView
+                    android:id="@+id/rating_my_sleep_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:letterSpacing="0.1"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <ListView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/rating_list"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="365dp"
+        android:layout_marginEnd="28dp"
+        tools:listitem="@layout/rating_list_item"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

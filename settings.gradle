@@ -1,0 +1,4 @@
+include ':library'
+include ':app'
+project(':library').projectDir = new File(rootDir, 'MaterialProgressBar/MaterialProgressBar-master/library/')
+rootProject.name = "Sleeping pets"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/choose_pet_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.1"
+        android:textAllCaps="false"
+        android:textSize="30sp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="440dp"
+        android:layout_gravity="center">
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/choose_button"
+        android:layout_width="200dp"
+        android:layout_height="37dp"
+        android:background="@drawable/pets_button"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:text="choose!"
+        android:textAllCaps="false"
+        android:textColor="#A39D9D"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:alpha="0.33"
+        android:gravity="center"
+        android:letterSpacing="0.01"
+        android:text="Press to select a pet or an egg for tonight"
+        android:textAllCaps="false"
+        android:textSize="13sp" />
+</LinearLayout>

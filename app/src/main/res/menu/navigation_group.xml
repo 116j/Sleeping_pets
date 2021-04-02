@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_page"
+            android:icon="@mipmap/user"
+            android:title="@string/menu_my_page" />
+        <item
+            android:id="@+id/nav_my_pets"
+            android:icon="@mipmap/pawprint"
+            android:title="@string/menu_my_pets" />
+        <item
+            android:id="@+id/nav_rating"
+            android:icon="@mipmap/star"
+            android:title="@string/menu_rating" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@mipmap/friends"
+            android:title="@string/menu_search" />
+        <item
+            android:id="@+id/nav_suggestions"
+            android:icon="@mipmap/weddinginvitation"
+            android:title="@string/menu_suggestions" />
+        <item
+            android:id="@+id/nav_alarm"
+            android:icon="@mipmap/alarm"
+            android:title="@string/menu_alarm" />
+    </group>
+</menu>

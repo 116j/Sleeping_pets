@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="328dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/logInEmail"
+                android:layout_width="298dp"
+                android:layout_height="32dp"
+                android:background="@drawable/login_edit_text"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center"
+                android:hint="username or email"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/loginEmailError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:textColor="#D11D1D"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/logInPsw"
+                android:layout_width="298dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_edit_text"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center"
+                android:hint="password"
+                android:inputType="textPassword"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/loginPswError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="#D11D1D"
+                android:textSize="12sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/LogInForgotPsw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="105dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="forgot password?"
+                android:textColor="#2A8BBE"
+                android:textSize="12sp"
+                tools:ignore="SmallSp" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="298dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="33dp"
+                android:background="@drawable/void_sign_up_button"
+                android:fontFamily="@font/roboto_thin"
+                android:gravity="center"
+                android:text="Log In"
+                android:textAllCaps="false"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="1.2dp"
+                    android:alpha="0.47"
+                    android:background="@drawable/horizontal_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginEnd="13dp"
+                    android:alpha="0.47"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="OR"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="200dp"
+                    android:layout_height="1.2dp"
+                    android:alpha="0.47"
+                    android:background="@drawable/horizontal_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/FBLogIn"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:alpha="0.47"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/facebook" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Log In With Facebook"
+                    android:textColor="#2A8BBE"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/VKLogIn"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:alpha="0.47"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/vk" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Log In With VK"
+                    android:textColor="#2A8BBE"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

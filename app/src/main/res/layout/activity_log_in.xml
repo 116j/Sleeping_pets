@@ -1,0 +1,133 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login_start_layout"
+    tools:context=".LogInStartActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1.2dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/horizontal_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:text="Welcome to"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1.2dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/horizontal_line" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="190dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.1"
+            android:text="@string/app_name"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="289dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="First time here?" />
+
+        <TextView
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:fontFamily="@font/montserrat_light"
+            android:gravity="center"
+            android:text="Already have ab account?" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="342dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/void_button_login"
+            android:fontFamily="@font/montserrat_light"
+            android:text="Sign Up"/>
+        <Button
+            android:id="@+id/loginInButton"
+            android:layout_width="136dp"
+            android:layout_marginStart="64dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_login"
+            android:fontFamily="@font/montserrat_light"
+            android:text="Login In"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:gravity="center"
+        android:layout_marginTop="462dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1.2dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/horizontal_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:text="Enjoy!"
+            android:textSize="25dp" />
+
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1.2dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/horizontal_line" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
