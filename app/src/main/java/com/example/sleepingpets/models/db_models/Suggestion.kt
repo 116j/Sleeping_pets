@@ -9,13 +9,13 @@ import java.sql.Time
 @Entity(tableName = "suggestion_table")
 data class Suggestion(
     @PrimaryKey(autoGenerate = true)
-    var id:Int,
+    var id:Int=0,
     @ColumnInfo(name = "suggest_time")
     var suggestTime: String,
     @ColumnInfo(name = "my_id")
     var myId:Int,
     @ColumnInfo(name = "my_pet")
-    var myPet:String,
+    var myPet:Int,
     @ColumnInfo(name = "user_pet")
     var userPet:Int,
     @ColumnInfo(name="user_id")

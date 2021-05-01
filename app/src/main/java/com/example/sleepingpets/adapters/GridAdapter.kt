@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sleepingpets.R
 import com.example.sleepingpets.models.db_models.Pet
 import com.example.sleepingpets.models.db_models.User
@@ -27,19 +28,11 @@ class GridAdapter(private val context: Activity, private val items: List<Pet>, p
 
         val pet=items[position]
         if(isMyPets&&items.size-1==position) {
-            image.setImageDrawable(view.resources.getDrawable(R.mipmap.plus))
+            image.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.plus))
             image.layoutParams.width=68
             image.layoutParams.height=68
         }
         return view
     }
 
-    private fun getBitmapFromAssets(fileName: String): Bitmap? {
-        return try {
-            BitmapFactory.decodeStream(URL(fileName).openStream())
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
 }

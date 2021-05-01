@@ -31,14 +31,10 @@ class SuggestionsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         }
         SleepingPetsService.updateUserSuggestions(user!!.id)
         var suggestions:List<Suggestion> = listOf()
-            SleepingPetsDatabase.getInstance(this).databaseDao.getUserSuggestions(user!!.id).observe(this){
-                suggestions=it
-            }
+           suggestions= SleepingPetsDatabase.getInstance(this).databaseDao.getUserSuggestions(user!!.id)
         val users = List<User>(suggestions.size) { pos ->
             var user:User=User(authType = "",login = "",password = "")
-            SleepingPetsDatabase.getInstance(this).databaseDao.getUser(suggestions.elementAt(pos).userId).observe(this){
-                user=it
-            }
+           user= SleepingPetsDatabase.getInstance(this).databaseDao.getUser(suggestions.elementAt(pos).userId)
             user
         }
 

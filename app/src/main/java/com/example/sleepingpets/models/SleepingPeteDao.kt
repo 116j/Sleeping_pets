@@ -51,17 +51,17 @@ interface SleepingPeteDao{
     fun deleteRejectedSuggestions(suggestionId: Int)
 
     @Query("select * from  pet_table where user_id == :userId order by birth ")
-    fun getUserPets(userId: Int):LiveData<List<Pet>>
+    fun getUserPets(userId: Int):List<Pet>
 
     @Query("select * from suggestion_table where my_id == :userId order by suggest_time")
-    fun getUserSuggestions(userId: Int):LiveData<List<Suggestion>>
+    fun getUserSuggestions(userId: Int):List<Suggestion>
 
     @Query("select * from  week_statistics_table where user_id == :userId order by id")
-    fun getUserWeeks(userId: Int):LiveData<List<WeekStatistics>>
+    fun getUserWeeks(userId: Int):List<WeekStatistics>
 
     @Query("select * from user_table order by sleep_score,pet_score")
-    fun getUsers():LiveData<List<User>>
+    fun getUsers():List<User>
 
     @Query("select * from user_table where id==:userId")
-    fun getUser(userId: Int):LiveData<User>
+    fun getUser(userId: Int):User
 }

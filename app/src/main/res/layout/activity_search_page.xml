@@ -115,16 +115,35 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
-        <com.synnapps.carouselview.CarouselView
+        <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search_carousel_view"
             android:layout_marginTop="41dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:autoPlay="false"/>
-
+            app:layout_constraintTop_toTopOf="parent"/>
+        <Button
+            android:id="@+id/search_sleep_together_button"
+            android:layout_width="200dp"
+            android:layout_height="37dp"
+            android:background="@drawable/pets_button"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:text="sleep together"
+            android:textAllCaps="false"
+            android:textColor="#A39D9D"
+            android:textSize="15sp" />
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_search_pets"
+        android:visibility="invisible"
+        android:foregroundGravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 <!--    <include-->
 <!--        layout="@layout/bottom_menu" />-->
 

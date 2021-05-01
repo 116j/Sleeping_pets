@@ -30,6 +30,7 @@ abstract class SleepingPetsDatabase : RoomDatabase() {
                         SleepingPetsDatabase::class.java,
                         "sleeping_pets_database"
                     )
+                        .allowMainThreadQueries()
                         .build()
                     INSTANCE = instance
                 }

@@ -3,18 +3,21 @@ package com.example.sleepingpets
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
+import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.observe
 import com.example.sleepingpets.models.SleepingPetsDatabase
 import com.example.sleepingpets.models.SleepingPetsService
@@ -28,23 +31,24 @@ import com.facebook.login.LoginResult
 import com.vk.api.sdk.*
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.auth.VKScope
 import com.vk.api.sdk.exceptions.VKApiIllegalResponseException
 import com.vk.api.sdk.internal.ApiCommand
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream
-import java.util.*
+import java.security.MessageDigest
 
 
 class LoginActivity : AppCompatActivity() {
     lateinit var callbackManager: CallbackManager
-
-    @SuppressLint("ShowToast")
+lateinit var users:List<User>
+lateinit var signUpName:EditText
+    @SuppressLint("ShowToast", "PackageManagerGetSignatures")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
+
         val layout = findViewById<ConstraintLayout>(R.id.login_layout)
         var signUpNameLayout: View? = null
         layout.rootView.setBackgroundResource(R.drawable.standard)
@@ -54,10 +58,10 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         SleepingPetsService.updateUsers()
-        var users: List<User> = listOf()
-        SleepingPetsDatabase.getInstance(this).databaseDao.getUsers().observe(this) {
-            users = it
-        }
+        val progress=findViewById<ProgressBar>(R.id.progress_login)
+        progress.visibility=View.VISIBLE
+         users= SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
+        progress.visibility=View.INVISIBLE
         when (intent.getStringExtra("Auth")) {
             "signUp" -> {
                 signUpNameLayout = View.inflate(this, R.layout.sign_up_name_layout, null)
@@ -68,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 params.gravity = Gravity.CENTER_HORIZONTAL
                 signUpNameLayout.layoutParams = params
                 layout.addView(signUpNameLayout)
-                val signUpName = findViewById<EditText>(R.id.signUpName)
+                 signUpName = findViewById<EditText>(R.id.signUpName)
                 val signUpNameError = findViewById<TextView>(R.id.signUpNameError)
                 signUpName.addTextChangedListener(object : TextWatcher {
                     override fun afterTextChanged(s: Editable?) {
@@ -101,6 +105,10 @@ class LoginActivity : AppCompatActivity() {
 
                 val signUpNextButton = findViewById<Button>(R.id.signUpNextButton)
                 signUpNextButton.setOnClickListener {
+                    if(signUpName.text.isEmpty()) {
+                        signUpNameError.text = "Name should have at least 3 symbols"
+                        return@setOnClickListener
+                    }
                     layout.removeView(signUpNameLayout)
                     val info=View.inflate(this, R.layout.sign_up_info_layout, null)
                     val params = LinearLayout.LayoutParams(
@@ -112,8 +120,8 @@ class LoginActivity : AppCompatActivity() {
                     layout.addView(info)
 
                     val signUpEmail = findViewById<EditText>(R.id.signUpEmail)
-                    val signUpPsw = findViewById<EditText>(R.id.signUpEmail)
-                    val signUpRepeatPsw = findViewById<EditText>(R.id.signUpEmail)
+                    val signUpPsw = findViewById<EditText>(R.id.signUpPsw)
+                    val signUpRepeatPsw = findViewById<EditText>(R.id.signUpRepeatPsw)
                     val signUpEmailError = findViewById<TextView>(R.id.signUpEmailError)
                     val signUpPswError = findViewById<TextView>(R.id.signUpPswError)
                     val signUpRepeatPswError = findViewById<TextView>(R.id.signUpRepeatPswError)
@@ -129,13 +137,13 @@ class LoginActivity : AppCompatActivity() {
                             isAlright = false
                         } else
                             signUpEmailError.text = ""
-                        if (signUpPsw.text.length > 5 && !signUpPsw.text.matches("[a-zA-Z0-9]*".toRegex())) {
+                        if (signUpPsw.text.length < 5 && !signUpPsw.text.matches("^[a-zA-Z0-9]+\$".toRegex())) {
                             signUpPswError.text =
                                 "Password should has at least 5 symbols and has only numbers and letters"
                             isAlright = false
                         } else {
                             signUpPswError.text = ""
-                            if (signUpRepeatPsw.text != signUpPsw.text) {
+                            if (signUpRepeatPsw.text.toString() != signUpPsw.text.toString()) {
                                 signUpRepeatPswError.text = "Password doesn't match"
                                 isAlright = false
                             } else
@@ -155,29 +163,11 @@ class LoginActivity : AppCompatActivity() {
 
                     findViewById<LinearLayout>(R.id.FBSignUp).setOnClickListener {
                         facebookLogin()
-                        SleepingPetsService.updateUsers()
-                        val usr =
-                            users.find { u -> u.authType == "F" && u.socialNetId == user!!.socialNetId; }
-                        if (usr != null)
-                            user = usr
-                        else {
-                            user?.login = signUpName.text.toString()
-                            SleepingPetsService.addUser(user!!)
-                        }
-                        finishLogin()
                     }
 
                     findViewById<LinearLayout>(R.id.VKSignUp).setOnClickListener {
-                        VK.login(this)
-                        val usr =
-                            users.find { u -> u.authType == "V" && u.socialNetId == user!!.socialNetId; }
-                        if (usr != null)
-                            user = usr
-                        else {
-                            user?.login = signUpName.text.toString()
-                            SleepingPetsService.addUser(user!!)
-                        }
-                        finishLogin()
+                        VK.initialize(this)
+                      VK.login(this)
                     }
                 }
             }
@@ -225,7 +215,8 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 findViewById<LinearLayout>(R.id.VKLogIn).setOnClickListener {
-                    VK.login(this)
+                    VK.initialize(this)
+                     VK.login(this)
                     user =
                         users.find { u -> u.authType == "V" && u.socialNetId == user!!.socialNetId; }
                     if (user == null) {
@@ -255,10 +246,19 @@ class LoginActivity : AppCompatActivity() {
                                 socialNetId = `object`.getString("id"),
                                 email = `object`.getString("email"),
                                 image = `object`.getString("picture.type(large)"),
-                                authType = "F",
-                                password = "",
-                                login = ""
+                                authType = "F"
                             )
+                            SleepingPetsService.updateUsers()
+                            val usr =
+                                users.find { u -> u.authType == "F" && u.socialNetId == user!!.socialNetId; }
+                            if (usr != null)
+                                user = usr
+                            else {
+                                user?.login = signUpName.text.toString()
+                                SleepingPetsService.addUser(user!!)
+//                            }
+                                finishLogin()
+                            }
                         } catch (e: JSONException) {
                             e.printStackTrace()
                         }
@@ -295,9 +295,7 @@ class LoginActivity : AppCompatActivity() {
                                     return User(
                                         socialNetId = ja.getJSONObject(0).optString("id", ""),
                                         image = ja.getJSONObject(0).optString("photo_200", ""),
-                                        login = "",
-                                        authType = "V",
-                                        password = ""
+                                        authType = "V"
                                     )
                                 } catch (ex: JSONException) {
                                     throw VKApiIllegalResponseException(ex)
@@ -311,6 +309,15 @@ class LoginActivity : AppCompatActivity() {
 
                     override fun success(result: User) {
                         user = result
+                        val usr =
+                            users.find { u -> u.authType == "V" && u.socialNetId == user!!.socialNetId; }
+                        if (usr != null)
+                            user = usr
+                        else {
+                            user?.login = signUpName.text.toString()
+                            SleepingPetsService.addUser(user!!)
+                        }
+                        finishLogin()
                     }
                 })
             }
@@ -324,6 +331,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun finishLogin() {
         saveUserId()
         val intent = Intent(this, AlarmActivity::class.java)
@@ -332,7 +340,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun saveUserId() {
-        val fos: FileOutputStream = openFileOutput(filesDir.path + "id.bin", Context.MODE_PRIVATE)
+        val fos: FileOutputStream = FileOutputStream(filesDir.path + "/id.bin")
         val os = ObjectOutputStream(fos)
         os.writeObject(user?.id)
         os.close()

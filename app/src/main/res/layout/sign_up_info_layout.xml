@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,7 +111,7 @@
                     android:alpha="0.47"
                     android:fontFamily="@font/roboto_regular"
                     android:text="OR"
-                    android:textSize="14dp"/>
+                    android:textSize="14sp"/>
 
                 <View
                     android:layout_width="200dp"
@@ -173,7 +168,5 @@
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

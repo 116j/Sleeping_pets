@@ -24,9 +24,7 @@ class SuggestionActivity : AppCompatActivity() {
 
         val suggestion = intent.getSerializableExtra("suggestion") as? Suggestion
         var suggester:User =User(login = "",password = "",authType = "")
-            SleepingPetsDatabase.getInstance(this).databaseDao.getUser(suggestion!!.userId).observe(this){
-                suggester=it
-            }
+          suggester=  SleepingPetsDatabase.getInstance(this).databaseDao.getUser(suggestion!!.userId)
         val userImage = findViewById<CircleImageView>(R.id.suggestion_user_image)
         val userName = findViewById<TextView>(R.id.suggestion_user_name)
         val userPetScore = findViewById<TextView>(R.id.suggestion_user_pet_score)

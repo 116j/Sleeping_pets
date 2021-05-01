@@ -39,9 +39,7 @@ class SettingsActivity : AppCompatActivity() {
         }
         val name = findViewById<EditText>(R.id.settingsName)
         var users:List<User> =listOf()
-        SleepingPetsDatabase.getInstance(this).databaseDao.getUsers().observe(this){
-            users=it
-        }
+        users=SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
         name.setText(user?.login)
         val settingsNameError = findViewById<TextView>(R.id.settingsNameError)
         name.addTextChangedListener(object : TextWatcher {

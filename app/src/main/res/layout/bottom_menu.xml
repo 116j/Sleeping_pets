@@ -6,9 +6,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="614dp"
-    app:layout_behavior="@string/bottom_sheet_behavior"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="50dp"
+    app:behavior_peekHeight="49dp"
     android:gravity="center">
     <ImageView
         android:layout_marginTop="16dp"
@@ -59,7 +59,7 @@
             android:layout_marginStart="27dp"
             android:layout_marginEnd="27dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/bottom_grid"
             android:gravity="center"
             android:horizontalSpacing="5dp"

@@ -31,12 +31,11 @@ class RatingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         toolbar.setOnClickListener {
             drawer.openDrawer(Gravity.LEFT)
         }
-
+        val progress=findViewById<ProgressBar>(R.id.progress_rating)
+        progress.visibility=View.VISIBLE
         SleepingPetsService.updateUsers()
-        var users:List<User> = listOf()
-        SleepingPetsDatabase.getInstance(this).databaseDao.getUsers().observe(this){
-            users=it
-        }
+        val users:List<User> =  SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
+        progress.visibility=View.INVISIBLE
         val rating = findViewById<ListView>(R.id.rating_list)
         val adapter = RatingListAdapter(this, users)
         rating.adapter = adapter

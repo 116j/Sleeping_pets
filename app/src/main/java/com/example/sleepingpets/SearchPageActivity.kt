@@ -8,17 +8,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.lifecycle.observe
+import androidx.viewpager2.widget.ViewPager2
 import com.example.sleepingpets.adapters.GridAdapter
+import com.example.sleepingpets.adapters.PetsAdapter
 import com.example.sleepingpets.models.SleepingPetsDatabase
 import com.example.sleepingpets.models.SleepingPetsService
 import com.example.sleepingpets.models.db_models.Pet
+import com.example.sleepingpets.models.db_models.Suggestion
 import com.example.sleepingpets.models.db_models.User
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.synnapps.carouselview.CarouselView
-import com.synnapps.carouselview.ViewListener
 import de.hdodenhof.circleimageview.CircleImageView
-import org.w3c.dom.Text
 import java.io.IOException
 import java.net.URL
 
@@ -67,12 +66,11 @@ class SearchPageActivity : AppCompatActivity() {
 
         val menuName=findViewById<TextView>(R.id.bottom_menu_name)
         menuName.text="Choose a pet"
-
-        SleepingPetsService.updateUserPets(user!!.id)
-        var pets:List<Pet> = listOf()
-        SleepingPetsDatabase.getInstance(this).databaseDao.getUserPets(user!!.id).observe(this){
-            pets=it
-        }
+        val progress=findViewById<ProgressBar>(R.id.progress_search_pets)
+        progress.visibility=View.VISIBLE
+        SleepingPetsService.updateUserPets(user.id)
+        val pets:List<Pet> =SleepingPetsDatabase.getInstance(this).databaseDao.getUserPets(user.id)
+        progress.visibility=View.INVISIBLE
         val grid = findViewById<GridView>(R.id.bottom_grid)
         val adapter = GridAdapter(this, pets, true)
         grid.adapter = adapter
@@ -81,16 +79,11 @@ class SearchPageActivity : AppCompatActivity() {
                 //chose for sleep
         }
 
-        val carouselView = findViewById<CarouselView>(R.id.search_carousel_view)
-        carouselView.pageCount = pets.size
-        carouselView.setViewListener(object : ViewListener {
-            override fun setViewForPosition(position: Int): View {
-                val view = layoutInflater.inflate(R.layout.user_carousel_view_item, null)
+        val carouselView = findViewById<ViewPager2>(R.id.search_carousel_view)
+        carouselView.adapter= PetsAdapter(pets,R.layout.user_pets_item)
+        findViewById<Button>(R.id.search_sleep_together_button).setOnClickListener {
 
-                return  view
-            }
-        })
-
+        }
         val back=findViewById<LinearLayout>(R.id.searchBack)
         back.setOnClickListener {
             finish()
