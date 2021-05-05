@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="333dp"
+    android:id="@+id/music_menu_back"
+    android:background="@drawable/music_background_night"
+    android:layout_height="522dp"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:gravity="right">
+        <ImageView
+            android:id="@+id/closeMusic"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginEnd="33dp"
+            android:src="@mipmap/close" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:gravity="center"
+        android:layout_marginTop="19dp"
+        android:orientation="horizontal"
+        >
+
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/horizontal_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:gravity="center"
+            android:text="Music"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_width="190dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/horizontal_line" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="58dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:text="Alarm music"
+            android:gravity="center"
+            android:layout_marginStart="57dp"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:layout_marginStart="78dp"
+            android:layout_width="26dp"
+            android:layout_height="7dp"
+            android:src="@mipmap/menu_arrow_down"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pickAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:background="@drawable/music_field"
+        android:layout_marginTop="18dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="23dp"
+            android:src="@mipmap/check_arrow"/>
+        <TextView
+            android:id="@+id/alarmMusicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.07"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="17sp"
+            android:alpha="0.82"
+            android:gravity="center"
+            android:layout_marginStart="18dp"
+            android:text="Egor ship - Dior"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="41dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:layout_marginStart="58dp"
+            android:text="Before sleep music"
+            android:gravity="center"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:layout_marginStart="13dp"
+            android:layout_width="26dp"
+            android:layout_height="7dp"
+            android:src="@mipmap/menu_arrow_down"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pickSleep"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:background="@drawable/music_field"
+        android:layout_marginTop="18dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="23dp"
+            android:src="@mipmap/check_arrow"/>
+        <TextView
+            android:id="@+id/sleepMusicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.07"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="17sp"
+            android:alpha="0.82"
+            android:gravity="center"
+            android:layout_marginStart="18dp"
+            android:text="Rain sounds"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="21dp"
+        android:gravity="end">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/raleway_medium"
+            android:letterSpacing="0.1"
+            android:layout_marginStart="58dp"
+            android:text="Time"
+            android:gravity="center"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="48dp"
+            android:layout_width="26dp"
+            android:layout_height="7dp"
+            android:src="@mipmap/menu_arrow_down"/>
+
+    </LinearLayout>
+    <Spinner
+        android:id="@+id/sleepMusicDuration"
+        android:layout_width="96dp"
+        android:layout_height="36dp"
+        android:background="@drawable/music_hour_field"
+        android:spinnerMode="dropdown"
+        android:drawSelectorOnTop="true"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="42dp"
+        android:textSize="17sp"
+        android:fontFamily="@font/raleway_medium"
+        android:letterSpacing="0.1"
+        />
+
+</LinearLayout>

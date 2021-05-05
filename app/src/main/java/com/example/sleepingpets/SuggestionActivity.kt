@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.observe
 import com.example.sleepingpets.models.SleepingPetsDatabase
 import com.example.sleepingpets.models.db_models.Suggestion
@@ -29,7 +30,13 @@ class SuggestionActivity : AppCompatActivity() {
         val userName = findViewById<TextView>(R.id.suggestion_user_name)
         val userPetScore = findViewById<TextView>(R.id.suggestion_user_pet_score)
 
-        userImage.setImageBitmap(getBitmapFromAssets(suggester!!.image))
+        if(suggester?.image!!.startsWith("@drawable")) {
+            val id = resources
+                .getIdentifier(user?.image!!.substring(10), "drawable", packageName)
+            userImage.setImageDrawable(ContextCompat.getDrawable(this,id))
+        }
+        else
+            userImage.setImageBitmap(getBitmapFromAssets(suggester?.image!!))
         userName.text = suggester!!.login
         userPetScore.text = suggester!!.petScore.toString()
 
@@ -47,7 +54,7 @@ class SuggestionActivity : AppCompatActivity() {
             finish()
         }
 
-
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
     }
 
     private fun getBitmapFromAssets(fileName: String): Bitmap? {

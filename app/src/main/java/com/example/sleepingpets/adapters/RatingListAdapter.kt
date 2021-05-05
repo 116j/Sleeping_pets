@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sleepingpets.R
 import com.example.sleepingpets.models.db_models.User
 import de.hdodenhof.circleimageview.CircleImageView
@@ -23,11 +24,17 @@ class RatingListAdapter(private val context: Activity, private val items: List<U
         val view: View = inflater.inflate(R.layout.rating_list_item, null)
         val image=view.findViewById<CircleImageView>(R.id.rating_user_image)
         val number=view.findViewById<TextView>(R.id.user_rating_number)
-        val name=view.findViewById<TextView>(R.id.rating_user_image)
+        val name=view.findViewById<TextView>(R.id.rating_user_name)
         val petScore=view.findViewById<TextView>(R.id.rating_user_pets_score)
         val sleepScore=view.findViewById<TextView>(R.id.rating_user_sleep_percent)
 
         val user=items[position]
+        if(user.image.startsWith("@drawable")) {
+            val id = context.resources
+                .getIdentifier(user.image.substring(10), "drawable", context.packageName)
+            image.setImageDrawable(ContextCompat.getDrawable(context,id))
+        }
+        else
         image.setImageBitmap(getBitmapFromAssets(user.image))
         number.text=(position+1).toString()
         name.text=user.login

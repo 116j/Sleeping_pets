@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SearchActivity">
-    <include layout="@layout/coins_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+
     <include
         layout="@layout/menu_button"
         android:layout_width="match_parent"
@@ -25,6 +22,7 @@
        <SearchView
            android:id="@+id/search_field"
            android:layout_width="326dp"
+           android:iconifiedByDefault="false"
            android:layout_height="match_parent"
            android:background="@drawable/search"
            android:tooltipText="Search" />
@@ -51,6 +49,12 @@
             android:layout_height="81dp"
             android:alpha="0.14"
             android:src="@mipmap/friends"/>
+
+        <include
+            layout="@layout/coins_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
     </LinearLayout>
 
     <ProgressBar

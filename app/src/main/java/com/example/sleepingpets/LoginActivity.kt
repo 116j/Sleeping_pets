@@ -38,6 +38,7 @@ import org.json.JSONObject
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.security.MessageDigest
+import kotlin.math.log
 
 
 class LoginActivity : AppCompatActivity() {
@@ -47,139 +48,104 @@ lateinit var signUpName:EditText
     @SuppressLint("ShowToast", "PackageManagerGetSignatures")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_layout)
-
-        val layout = findViewById<ConstraintLayout>(R.id.login_layout)
-        var signUpNameLayout: View? = null
-        layout.rootView.setBackgroundResource(R.drawable.standard)
-
+        setContentView(R.layout.login_main)
+        val layout=findViewById<ConstraintLayout>(R.id.login_main_layout)
+layout.rootView.setBackgroundResource(R.drawable.standard)
         val close = findViewById<ImageView>(R.id.closeLogin)
         close.setOnClickListener {
             finish()
         }
-        SleepingPetsService.updateUsers()
         val progress=findViewById<ProgressBar>(R.id.progress_login)
         progress.visibility=View.VISIBLE
+        SleepingPetsService.updateUsers()
          users= SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
         progress.visibility=View.INVISIBLE
         when (intent.getStringExtra("Auth")) {
             "signUp" -> {
-                signUpNameLayout = View.inflate(this, R.layout.sign_up_name_layout, null)
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                params.gravity = Gravity.CENTER_HORIZONTAL
-                signUpNameLayout.layoutParams = params
-                layout.addView(signUpNameLayout)
-                 signUpName = findViewById<EditText>(R.id.signUpName)
+                val nameLayout= View.inflate(this,R.layout.sign_up_name_layout,null)
+                layout.addView(nameLayout)
+                 signUpName = findViewById(R.id.signUpName)
                 val signUpNameError = findViewById<TextView>(R.id.signUpNameError)
-                signUpName.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable?) {
-                    }
-
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    @RequiresApi(Build.VERSION_CODES.N)
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                        when {
-                            s?.length!! < 3 -> signUpNameError.text =
-                                "Name should have at least 3 symbols"
-                            users.stream().anyMatch { u -> u.login == s } -> signUpNameError.text =
-                                "This name is already taken"
-                            else -> signUpNameError.text = ""
-                        }
-                    }
-                })
 
                 val signUpNextButton = findViewById<Button>(R.id.signUpNextButton)
                 signUpNextButton.setOnClickListener {
-                    if(signUpName.text.isEmpty()) {
-                        signUpNameError.text = "Name should have at least 3 symbols"
-                        return@setOnClickListener
-                    }
-                    layout.removeView(signUpNameLayout)
-                    val info=View.inflate(this, R.layout.sign_up_info_layout, null)
-                    val params = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                    )
-                    params.gravity = Gravity.CENTER_HORIZONTAL
-                    info.layoutParams=params
-                    layout.addView(info)
-
-                    val signUpEmail = findViewById<EditText>(R.id.signUpEmail)
-                    val signUpPsw = findViewById<EditText>(R.id.signUpPsw)
-                    val signUpRepeatPsw = findViewById<EditText>(R.id.signUpRepeatPsw)
-                    val signUpEmailError = findViewById<TextView>(R.id.signUpEmailError)
-                    val signUpPswError = findViewById<TextView>(R.id.signUpPswError)
-                    val signUpRepeatPswError = findViewById<TextView>(R.id.signUpRepeatPswError)
-
-                    val signUpButtonN = findViewById<Button>(R.id.signUpButtonN)
-                    signUpButtonN.setOnClickListener {
-                        var isAlright = true
-                        if (signUpEmail.text.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(
-                                signUpEmail.text
-                            ).matches()
-                        ) {
-                            signUpEmailError.text = "Enter your email"
-                            isAlright = false
-                        } else
-                            signUpEmailError.text = ""
-                        if (signUpPsw.text.length < 5 && !signUpPsw.text.matches("^[a-zA-Z0-9]+\$".toRegex())) {
-                            signUpPswError.text =
-                                "Password should has at least 5 symbols and has only numbers and letters"
-                            isAlright = false
-                        } else {
-                            signUpPswError.text = ""
-                            if (signUpRepeatPsw.text.toString() != signUpPsw.text.toString()) {
-                                signUpRepeatPswError.text = "Password doesn't match"
-                                isAlright = false
-                            } else
-                                signUpRepeatPswError.text = ""
+                    when {
+                        signUpName.text.isEmpty() -> {
+                            signUpNameError.text = "Name should have at least 3 symbols"
+                            return@setOnClickListener
                         }
-                        if (isAlright) {
-                            user = User(
-                                login = signUpName.text.toString(),
-                                email = signUpEmail.text.toString(),
-                                password = signUpPsw.text.toString(),
-                                authType = "N"
-                            )
-                            SleepingPetsService.addUser(user!!)
-                            finishLogin()
+                        signUpName.text.length<3 -> {
+                            signUpNameError.text =
+                                "Name should have at least 3 symbols"
+                            return@setOnClickListener
                         }
-                    }
+                        users.stream().anyMatch { u -> u.login == signUpName.text.toString() } -> {
+                            signUpNameError.text =
+                                "This name is already taken"
+                            return@setOnClickListener
+                        }
+                        else -> {
+                            layout.removeView(nameLayout)
+                            layout.addView(View.inflate(this,R.layout.sign_up_info_layout,null))
 
-                    findViewById<LinearLayout>(R.id.FBSignUp).setOnClickListener {
-                        facebookLogin()
-                    }
+                            val signUpEmail = findViewById<EditText>(R.id.signUpEmail)
+                            val signUpPsw = findViewById<EditText>(R.id.signUpPsw)
+                            val signUpRepeatPsw = findViewById<EditText>(R.id.signUpRepeatPsw)
+                            val signUpEmailError = findViewById<TextView>(R.id.signUpEmailError)
+                            val signUpPswError = findViewById<TextView>(R.id.signUpPswError)
+                            val signUpRepeatPswError =
+                                findViewById<TextView>(R.id.signUpRepeatPswError)
 
-                    findViewById<LinearLayout>(R.id.VKSignUp).setOnClickListener {
-                        VK.initialize(this)
-                      VK.login(this)
+                            val signUpButtonN = findViewById<Button>(R.id.signUpButtonN)
+                            signUpButtonN.setOnClickListener {
+                                var isAlright = true
+                                if (signUpEmail.text.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(
+                                        signUpEmail.text
+                                    ).matches()
+                                ) {
+                                    signUpEmailError.text = "Enter your email"
+                                    isAlright = false
+                                } else
+                                    signUpEmailError.text = ""
+                                if (signUpPsw.text.length < 5 || !signUpPsw.text.matches("^[a-zA-Z0-9]+\$".toRegex())) {
+                                    signUpPswError.text =
+                                        "Password should has at least 5 symbols and has only numbers and letters"
+                                    isAlright = false
+                                } else {
+                                    signUpPswError.text = ""
+                                    if (signUpRepeatPsw.text.toString() != signUpPsw.text.toString()) {
+                                        signUpRepeatPswError.text = "Password doesn't match"
+                                        isAlright = false
+                                    } else
+                                        signUpRepeatPswError.text = ""
+                                }
+                                if (isAlright) {
+                                    user = User(
+                                        login = signUpName.text.toString(),
+                                        email = signUpEmail.text.toString(),
+                                        password = signUpPsw.text.toString(),
+                                        authType = "N"
+                                    )
+                                    SleepingPetsService.addUser(user!!, this)
+                                    finishLogin()
+                                }
+                            }
+
+                            findViewById<LinearLayout>(R.id.FBSignUp).setOnClickListener {
+                                facebookLogin()
+                            }
+
+                            findViewById<LinearLayout>(R.id.VKSignUp).setOnClickListener {
+                                VK.initialize(this)
+                                VK.login(this)
+                            }
+                        }
                     }
                 }
             }
             "logIn" -> {
-                val login = View.inflate(this, R.layout.login_in_layout, null)
-                val params = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                params.gravity = Gravity.CENTER_HORIZONTAL
-                login.layoutParams=params
-                layout.addView(login)
+                val loginLayout= View.inflate(this,R.layout.login_in_layout,null)
+                layout.addView(loginLayout)
                 val logInEmail = findViewById<EditText>(R.id.logInEmail)
                 val logInPsw = findViewById<EditText>(R.id.logInPsw)
                 val loginEmailError = findViewById<TextView>(R.id.loginEmailError)
@@ -202,13 +168,29 @@ lateinit var signUpName:EditText
                         finishLogin()
                     }
                 }
+                findViewById<TextView>(R.id.LogInForgotPsw).setOnClickListener{
+                   val emailRestoreLayout=View.inflate(this,R.layout.send_code,null)
+                    layout.removeView(loginLayout)
+                    layout.addView(emailRestoreLayout)
+                    val email=findViewById<EditText>(R.id.restoreEmail)
+                    findViewById<Button>(R.id.restorePsw).setOnClickListener{
+                        val emailError=findViewById<TextView>(R.id.restoreEmailError)
+                        user =
+                            users.find { u -> u.email == email.text.toString(); }
+                        if (user == null)
+                            emailError.text = "User with such email doesn't exists"
+                        else {
+                            emailError.text = ""
+                        }
+                    }
+                }
 
                 findViewById<LinearLayout>(R.id.FBLogIn).setOnClickListener {
                     facebookLogin()
                     user =
                         users.find { u -> u.authType == "F" && u.socialNetId == user!!.socialNetId; }
                     if (user == null) {
-                        Toast.makeText(this, "No such user. Please, sign up", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, "No such user. Please, sign up", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
                     finishLogin()
@@ -220,7 +202,7 @@ lateinit var signUpName:EditText
                     user =
                         users.find { u -> u.authType == "V" && u.socialNetId == user!!.socialNetId; }
                     if (user == null) {
-                        Toast.makeText(this, "No such user. Please, sign up", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, "No such user. Please, sign up", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
                     finishLogin()
@@ -255,7 +237,7 @@ lateinit var signUpName:EditText
                                 user = usr
                             else {
                                 user?.login = signUpName.text.toString()
-                                SleepingPetsService.addUser(user!!)
+                                SleepingPetsService.addUser(user!!,this@LoginActivity)
 //                            }
                                 finishLogin()
                             }
@@ -315,7 +297,7 @@ lateinit var signUpName:EditText
                             user = usr
                         else {
                             user?.login = signUpName.text.toString()
-                            SleepingPetsService.addUser(user!!)
+                            SleepingPetsService.addUser(user!!,this@LoginActivity)
                         }
                         finishLogin()
                     }

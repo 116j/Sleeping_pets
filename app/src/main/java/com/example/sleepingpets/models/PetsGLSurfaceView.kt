@@ -2,31 +2,29 @@ package com.example.sleepingpets.models
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.HardwareRenderer
 import android.graphics.PixelFormat
 import android.opengl.GLSurfaceView
 import android.view.MotionEvent
 import com.example.sleepingpets.models.db_models.Pet
 
 
-class PetsGLSurfaceView(val con: Context, val pet: Pet) : GLSurfaceView(con) {
+class PetsGLSurfaceView(val con: Context, val renderer: PetsGLRenderer) : GLSurfaceView(con) {
 
-    private val renderer: PetsGLRenderer
     private val TOUCH_SCALE_FACTOR: Float = 180.0f / 320f
     private var previousX: Float = 0f
 
     init {
-
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2)
 
-        renderer = PetsGLRenderer(pet.obj,con)
-
-        // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(renderer)
+        // Set the Renderer for drawing on the GLSurfaceView
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         holder.setFormat(PixelFormat.TRANSLUCENT);
-        renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+        renderMode = RENDERMODE_WHEN_DIRTY
     }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent): Boolean {
         // MotionEvent reports input details from the touch screen
@@ -34,7 +32,6 @@ class PetsGLSurfaceView(val con: Context, val pet: Pet) : GLSurfaceView(con) {
         // interested in events where the touch position changed.
 
         val x: Float = e.x
-        val y: Float = e.y
 
         when (e.action) {
             MotionEvent.ACTION_MOVE -> {

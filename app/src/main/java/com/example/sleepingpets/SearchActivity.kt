@@ -34,7 +34,7 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         progress.visibility = View.VISIBLE
         val users = SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
         progress.visibility = View.INVISIBLE
-        var searchResult = listOf<User>()
+        val searchResult = mutableListOf<User>()
         val searchList = findViewById<ListView>(R.id.search_list)
         val adapter = SAdapter(this, searchResult)
         searchList.adapter = adapter
@@ -48,12 +48,14 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
             @RequiresApi(Build.VERSION_CODES.N)
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchResult = users.stream().filter { u ->
+                searchResult.removeAll(searchResult)
+                searchResult.addAll( users.stream().filter { u ->
                     u.login
                         .contains(newText!!,true)
-                }.collect(Collectors.toList())
+                }.collect(Collectors.toList()))
+                search.invalidate()
                 adapter.notifyDataSetChanged()
-                searchList.adapter = adapter
+               searchList.adapter = adapter
                 return false
             }
         })
@@ -63,6 +65,8 @@ class SearchActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             intent.putExtra("user", searchResult[position])
             startActivity(intent)
          }
+
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
 
     }
 

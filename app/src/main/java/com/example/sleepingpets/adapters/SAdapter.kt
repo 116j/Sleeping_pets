@@ -2,12 +2,14 @@ package com.example.sleepingpets.adapters
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.sleepingpets.R
 import com.example.sleepingpets.models.db_models.User
 import de.hdodenhof.circleimageview.CircleImageView
@@ -25,7 +27,14 @@ class SAdapter(private val context: Activity, private val items: List<User>) :
         val petScore = view.findViewById<TextView>(R.id.search_pets_score)
 
         val user = items[position]
-        image.setImageBitmap(getBitmapFromAssets(user.image))
+        if(user.image.startsWith("@drawable")) {
+            val context: Context = image.context
+            val id = context.resources
+                .getIdentifier(user.image.substring(10), "drawable", context.packageName)
+            image.setImageDrawable(ContextCompat.getDrawable(context,id))
+        }
+        else
+            image.setImageBitmap(getBitmapFromAssets(user.image))
         name.text = user.login
         petScore.text = user.petScore.toString()
 

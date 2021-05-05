@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.observe
 import com.example.sleepingpets.adapters.RatingListAdapter
@@ -40,7 +41,7 @@ class RatingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val adapter = RatingListAdapter(this, users)
         rating.adapter = adapter
         rating.setOnItemClickListener { parent, view, position, id ->
-            val intent = Intent(this, RatingActivity::class.java)
+            val intent = Intent(this, RatingPageActivity::class.java)
             intent.putExtra("user", users[position])
             intent.putExtra("position", position)
             startActivity(intent)
@@ -52,11 +53,19 @@ class RatingActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         val petScore = findViewById<TextView>(R.id.rating_my_pets_score)
         val sleepScore = findViewById<TextView>(R.id.rating_my_sleep_percent)
 
-        image.setImageBitmap(getBitmapFromAssets(user!!.image))
-        number.text = (users.indexOf(user!!) + 1).toString()
+        if(user?.image!!.startsWith("@drawable")) {
+            val id = resources
+                .getIdentifier(user?.image!!.substring(10), "drawable", packageName)
+            image.setImageDrawable(ContextCompat.getDrawable(this,id))
+        }
+        else
+            image.setImageBitmap(getBitmapFromAssets(user?.image!!))
+        number.text = (users.indexOf(users.stream().filter { u-> u.id==user?.id}.findFirst().get()) + 1).toString()
         name.text = user!!.login
         petScore.text = user!!.petScore.toString()
         sleepScore.text = user!!.sleepScore.toString()
+
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
 
         navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView!!.setNavigationItemSelectedListener(this)

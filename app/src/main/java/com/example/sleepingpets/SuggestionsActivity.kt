@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.observe
 import com.example.sleepingpets.adapters.RatingListAdapter
@@ -46,6 +47,8 @@ class SuggestionsActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             intent.putExtra("suggestion", suggestions[position])
             startActivity(intent)
         }
+
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
         navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView!!.setNavigationItemSelectedListener(this)
     }

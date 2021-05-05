@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="123dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:src="@drawable/prof_image"
+            app:civ_border_color="#D8D8D8"
+            app:civ_border_width="10dp" />
+
+        <Button
+            android:id="@+id/changePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="edit profile picture"
+            android:textAllCaps="false"
+            android:textColor="#2A8BBE"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/horizontal_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center"
+                android:text="Name:"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="61dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/settingsName"
+                    android:layout_width="266dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:gravity="center"
+                    android:hint="name"
+                    android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/settingsNameError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="#D11D1D"
+                    android:textSize="12sp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:background="@drawable/horizontal_line" />
+        <Button
+            android:id="@+id/logOut"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Log out"
+            android:textAllCaps="false"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_light"/>
+        <Button
+            android:id="@+id/delete_profile"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Delete profile"
+            android:textAllCaps="false"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_light"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

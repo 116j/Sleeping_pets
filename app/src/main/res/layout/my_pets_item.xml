@@ -3,19 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:id="@+id/my_pets_left"
-        android:src="@mipmap/arrow_left"/>
+    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="380dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <TextView
                 android:id="@+id/my_pet_type"
                 android:layout_width="match_parent"
@@ -40,12 +29,4 @@
                 android:layout_gravity="center">
 
             </FrameLayout>
-        </LinearLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:id="@+id/my_pets_right"
-        android:src="@mipmap/arrow_rifht"/>
 </LinearLayout>

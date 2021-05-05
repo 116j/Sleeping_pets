@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.io.IOException
 import java.net.URL
 
-class GridAdapter(private val context: Activity, private val items: List<Pet>, private val isMyPets:Boolean) :
+class GridAdapter(private val context: Activity, private val items: List<Pet>) :
     ArrayAdapter<Pet>(context, R.layout.bottom_menu_item, items) {
     @SuppressLint("ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -27,12 +27,7 @@ class GridAdapter(private val context: Activity, private val items: List<Pet>, p
         val image=view.findViewById<CircleImageView>(R.id.bottom_menu_image)
 
         val pet=items[position]
-        if(isMyPets&&items.size-1==position) {
-            image.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.plus))
-            image.layoutParams.width=68
-            image.layoutParams.height=68
-        }
-        return view
+        return convertView ?: view
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.sleepingpets
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sleepingpets.adapters.PetsAdapter
@@ -28,5 +29,7 @@ class BuyPetsActivity : AppCompatActivity() {
         back.setOnClickListener {
             finish()
         }
+
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
     }
 }

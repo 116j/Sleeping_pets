@@ -31,63 +31,32 @@ class MyPetsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             drawer.openDrawer(Gravity.LEFT)
         }
 
-        val bottomMenu = findViewById<LinearLayout>(R.id.bottom_menu)
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomMenu)
-        val closeMenu = findViewById<ImageView>(R.id.open_bottom_menu)
-        closeMenu.setOnClickListener {
-            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            else if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-        bottomSheetBehavior.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // handle onSlide
-            }
-
-            @SuppressLint("UseCompatLoadingForDrawables")
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        closeMenu.setImageDrawable(resources.getDrawable(R.mipmap.menu_arrow_up))
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        closeMenu.setImageDrawable(resources.getDrawable(R.mipmap.menu_arrow_down))
-                    }
-                }
-            }
-        })
-
-        val menuName = findViewById<TextView>(R.id.bottom_menu_name)
-        menuName.text = "My pets"
         val progress = findViewById<ProgressBar>(R.id.progress_my_pets)
         progress.visibility = View.VISIBLE
         SleepingPetsService.updateUserPets(user!!.id)
         val pets: List<Pet> =
             SleepingPetsDatabase.getInstance(this).databaseDao.getUserPets(user!!.id)
         progress.visibility = View.INVISIBLE
-        pets.toMutableList().add(Pet(userId = user!!.id, name = "", type = "",obj = ""))
-        val grid = findViewById<GridView>(R.id.bottom_grid)
-        val gridadapter = GridAdapter(this, pets, true)
-        grid.adapter = gridadapter
-        grid.setOnItemClickListener { parent, view, position, id ->
-            if (position == pets.size - 1) {
-                val intent = Intent(this, BuyPetsActivity::class.java)
-                startActivity(intent)
-            } else {
-                //chose for sleep
-            }
-        }
-
         val carouselView = findViewById<ViewPager2>(R.id.my_pets_carousel_view)
         carouselView.adapter = PetsAdapter(pets,R.layout.my_pets_item)
+
+        findViewById<ImageView>(R.id.my_pets_left).setOnClickListener {
+            if(carouselView.currentItem>0)
+                carouselView.currentItem--
+        }
+
+        findViewById<ImageView>(R.id.my_pets_right).setOnClickListener {
+            if(carouselView.currentItem<pets.size-1)
+                carouselView.currentItem++
+        }
 
         findViewById<ImageView>(R.id.plus).setOnClickListener {
             val intent = Intent(this, BuyPetsActivity::class.java)
             startActivity(intent)
         }
+
+        findViewById<TextView>(R.id.coinsText).text= user?.balance.toString()
         navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView!!.setNavigationItemSelectedListener(this)
     }

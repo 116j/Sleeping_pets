@@ -82,6 +82,48 @@ android:layout_gravity="right"
             android:textSize="16sp"
             android:text="fbeh_36475"
             android:layout_marginTop="26dp"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_marginTop="68dp"
+            android:id="@+id/weekStatisticCW"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="49dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/prev_week"
+                android:layout_width="7dp"
+                android:layout_height="26dp"
+                android:src="@mipmap/arrow_left"/>
+            <TextView
+                android:id="@+id/weekName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27.5dp"
+                android:fontFamily="@font/raleway_light"
+                android:letterSpacing="0.08"
+                android:textSize="23sp"/>
+            <ImageView
+                android:layout_marginStart="27.5dp"
+                android:id="@+id/next_week"
+                android:layout_width="7dp"
+                android:layout_height="26dp"
+                android:src="@mipmap/arrow_rifht"/>
+
+        </LinearLayout>
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_my_page"
+        android:visibility="invisible"
+        android:foregroundGravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

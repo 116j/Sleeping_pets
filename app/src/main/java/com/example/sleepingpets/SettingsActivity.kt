@@ -1,5 +1,6 @@
 package com.example.sleepingpets
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.observe
 import com.example.sleepingpets.models.SleepingPetsDatabase
+import com.example.sleepingpets.models.SleepingPetsService
 import com.example.sleepingpets.models.db_models.User
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
@@ -24,10 +26,12 @@ import java.io.File
 
 
 class SettingsActivity : AppCompatActivity() {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        findViewById<ConstraintLayout>(R.id.settings_layout).rootView.setBackgroundResource(R.drawable.standard)
+        val layout=findViewById<ConstraintLayout>(R.id.settings_layout)
+        layout.rootView.setBackgroundResource(R.drawable.standard)
         val back = findViewById<View>(R.id.settingsBack)
         back.setOnClickListener {
             finish()
@@ -37,76 +41,103 @@ class SettingsActivity : AppCompatActivity() {
         change.setOnClickListener {
 
         }
-        val name = findViewById<EditText>(R.id.settingsName)
-        var users:List<User> =listOf()
-        users=SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
-        name.setText(user?.login)
-        val settingsNameError = findViewById<TextView>(R.id.settingsNameError)
-        name.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
+        if(user?.authType=="N") {
+            layout.addView(View.inflate(this, R.layout.native_settings, null))
+            val name = findViewById<EditText>(R.id.settingsName)
+            val users:List<User> =SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
+            name.setText(user?.login)
+            val settingsNameError = findViewById<TextView>(R.id.settingsNameError)
+            val email = findViewById<EditText>(R.id.settingsEmail)
+            val settingsEmailError = findViewById<TextView>(R.id.settingsEmailError)
+            email.setText(user?.email)
+            val oldPsw = findViewById<EditText>(R.id.settingsOldPsw)
+            val settingsOldPswError = findViewById<TextView>(R.id.settingsOldPswError)
+            val newPsw = findViewById<EditText>(R.id.settingsNewPsw)
+            val settingsNewPswError = findViewById<TextView>(R.id.settingsNewPswError)
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            @RequiresApi(Build.VERSION_CODES.N)
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != user?.login) {
-                    when {
-                        s?.length!! < 3 -> settingsNameError.text =
-                            "Name should have at least 3 symbols"
-                        users.stream().anyMatch { u -> u.login == s } -> settingsNameError.text =
-                            "This name is already taken"
-                        else -> settingsNameError.text = ""
+            val done = findViewById<Button>(R.id.doneSettings)
+            done.setOnClickListener {
+                var isAlright = true
+                when {
+                    name.text.toString().length!! < 3 ->{
+                        settingsNameError.text = "Name should have at least 3 symbols"
+                        isAlright=false
                     }
-                } else if (settingsNameError.text.isNotEmpty())
-                    settingsNameError.text = ""
-            }
+                    users.stream().anyMatch { u -> u.login == name.text.toString() } -> {
+                        settingsNameError.text = "This name is already taken"
+                        isAlright=false
+                    }
+                    else -> settingsNameError.text = ""
+                }
+                    if (email.text.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.text)
+                            .matches()
+                    ) {
+                        settingsEmailError.text = ""
+                        isAlright = false
+                    } else
+                        settingsEmailError.text = ""
+                    if (oldPsw.text.toString() != user?.password) {
+                        settingsOldPswError.text = "Incorrect password"
+                        isAlright = false
+                    } else
+                        settingsOldPswError.text = ""
+                    if (newPsw.text.length < 5 || !newPsw.text.matches("^[a-zA-Z0-9]+\$".toRegex())) {
+                        settingsNewPswError.text =
+                            "Password should has at least 5 symbols and has only numbers and letters"
+                        isAlright = false
+                    } else
+                        settingsNewPswError.text = ""
 
-        })
-        val email = findViewById<EditText>(R.id.settingsEmail)
-        val settingsEmailError = findViewById<TextView>(R.id.settingsEmailError)
-        email.setText(user?.email)
-        val oldPsw = findViewById<EditText>(R.id.settingsOldPsw)
-        val settingsOldPswError = findViewById<TextView>(R.id.settingsOldPswError)
-        val newPsw = findViewById<EditText>(R.id.settingsNewPsw)
-        val settingsNewPswError = findViewById<TextView>(R.id.settingsNewPswError)
-        val done = findViewById<Button>(R.id.doneSettings)
-        done.setOnClickListener {
-            var isAlright = settingsNameError.text.isEmpty()
-            if (email.text.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email.text)
-                    .matches()
-            ) {
-                settingsEmailError.text = ""
-                isAlright = false
-            } else
-                settingsEmailError.text = ""
-            if (oldPsw.text.toString() != user?.password) {
-                settingsOldPswError.text = "Incorrect password"
-                isAlright = false
-            } else
-                settingsOldPswError.text = ""
-            if (newPsw.text.length > 5 && !newPsw.text.matches("[a-zA-Z0-9]*".toRegex())) {
-                settingsNewPswError.text =
-                    "Password should has at least 5 symbols and has only numbers and letters"
-                isAlright = false
-            } else
-                settingsNewPswError.text = ""
-            if (isAlright) {
-                user?.login = name.text.toString()
-                user?.password = newPsw.text.toString()
-                user?.email = email.text.toString()
-                // save user info
-                finish()
+                if (isAlright) {
+                    user?.login = name.text.toString()
+                    if(user?.authType!="N") {
+                        user?.password = newPsw.text.toString()
+                        user?.email = email.text.toString()
+                    }
+                    SleepingPetsService.updateUser(user!!,this)
+                    // save user info
+                    finish()
+                }
             }
         }
+        else {
+            layout.addView(View.inflate(this, R.layout.social_nets_settings, null))
+            val name = findViewById<EditText>(R.id.settingsName)
+            val users:List<User> =SleepingPetsDatabase.getInstance(this).databaseDao.getUsers()
+            name.setText(user?.login)
+            val settingsNameError = findViewById<TextView>(R.id.settingsNameError)
+            val done = findViewById<Button>(R.id.doneSettings)
+            done.setOnClickListener {
+                var isAlright = true
+                when {
+                    name.text.toString().length!! < 3 ->{
+                        settingsNameError.text = "Name should have at least 3 symbols"
+                        isAlright=false
+                    }
+                    users.stream().anyMatch { u -> u.login == name.text.toString() } -> {
+                        settingsNameError.text = "This name is already taken"
+                        isAlright=false
+                    }
+                    else -> settingsNameError.text = ""
+                }
+
+                if (isAlright) {
+                    user?.login = name.text.toString()
+                    SleepingPetsService.updateUser(user!!,this)
+                    finish()
+                }
+            }
+        }
+
+
+
         val logOut = findViewById<Button>(R.id.logOut)
         logOut.setOnClickListener {
             logOut()
         }
         val delete = findViewById<Button>(R.id.delete_profile)
         delete.setOnClickListener {
-            user?.let { it1 -> SleepingPetsDatabase.getInstance(this).databaseDao.deleteUser(it1) }
+            SleepingPetsService.deleteUser(user!!,this)
             logOut()
         }
     }
@@ -128,7 +159,7 @@ class SettingsActivity : AppCompatActivity() {
             "V" -> VK.logout()
         }
         user = null
-        File(filesDir.path + "id.bin").delete()
+        File(filesDir.path + "/id.bin").delete()
         val intent = Intent(this, LogInStartActivity::class.java)
         finishAffinity()
         startActivity(intent)

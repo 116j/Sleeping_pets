@@ -22,7 +22,7 @@
         android:layout_height="565dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:background="@drawable/bottom_menu">
+        android:background="@drawable/bottom_menu_night">
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

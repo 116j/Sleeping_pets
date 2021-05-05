@@ -11,11 +11,13 @@ data class WeekStatistics(
     var id: Int,
     @ColumnInfo(name = "user_id")
     var userId: Int,
-    var monday:Int,
-    var thusday:Int,
-    var wendsday:Int,
-    var thursday:Int,
-    var friday:Int,
-    var saturday:Int,
-    var sunday:Int
+    var name:String?,
+    var weekBegin:Long,
+    var monday:Short,
+    var tuesday:Short,
+    var wednesday:Short,
+    var thursday:Short,
+    var friday:Short,
+    var saturday:Short,
+    var sunday:Short
 ): Serializable
