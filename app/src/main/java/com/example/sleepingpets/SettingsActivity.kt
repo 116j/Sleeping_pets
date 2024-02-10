@@ -38,9 +38,9 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val change = findViewById<Button>(R.id.changePicture)
-        change.setOnClickListener {
-
-        }
+//        change.setOnClickListener {
+//
+//        }
         if(user?.authType=="N") {
             layout.addView(View.inflate(this, R.layout.native_settings, null))
             val name = findViewById<EditText>(R.id.settingsName)

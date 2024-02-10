@@ -111,7 +111,7 @@ android:layout_gravity="right"
                 android:id="@+id/next_week"
                 android:layout_width="7dp"
                 android:layout_height="26dp"
-                android:src="@mipmap/arrow_rifht"/>
+                android:src="@mipmap/arrow_right"/>
 
         </LinearLayout>
     </LinearLayout>

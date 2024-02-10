@@ -63,7 +63,8 @@ class AlarmActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         setContentView(R.layout.activity_alarm)
 
         update()
-
+if(user==null)
+    return
         val menu: ImageView = findViewById<View>(R.id.menuButton) as ImageView
         findViewById<TextView>(R.id.wakeupTime).text =
             SimpleDateFormat("HH:mm").format(Time.valueOf(user?.wakeUpTime))

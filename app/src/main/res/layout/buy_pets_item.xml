@@ -42,5 +42,5 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:id="@+id/buy_pets_right"
-        android:src="@mipmap/arrow_rifht"/>
+        android:src="@mipmap/arrow_right"/>
 </LinearLayout>
